@@ -55,13 +55,11 @@ def common_similarity(x:Product, y:Product) -> float:
         float(x.is_installment),
         float(WarrantyType.get_num(x.warranty_type)/len(WarrantyType))
     ]
-    print(x_vector)
     y_vector = [
         float(y.price/max_price),
         float(y.is_installment),
         float(WarrantyType.get_num(y.warranty_type)/len(WarrantyType))
     ]
-    print(y_vector)
     euclid_sim = 1 - minkowski_dist(x_vector, y_vector, 2)
     tree_sim = 1 - tree_dist(x, y)
     brand_sim = float(x.brand == y.brand)

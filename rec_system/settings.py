@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rec_system.catalog'
+    'rec_system.catalog',
+    'rec_system.users',
+    'mptt'
 ]
 
 MIDDLEWARE = [
@@ -129,3 +131,4 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = 'index'
+AUTH_USER_MODEL = 'users.User'

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load mptt_tags %}
+
+{% block title %}Поиск{% endblock %}
+
+{% block content %}
+	<h2>Категории</h2>
+
+    <ul>
+        {% recursetree categories %}
+            <li>
+                {% if not node.is_leaf_node %}
+                    {{ node.title }}
+                    <ul class="children">
+                        {{ children }}
+                    </ul>
+                {% else %}
+                    <a href="/category/{{ node.id }}/">{{ node.title }}</a>
+                {% endif %}
+            </li>
+        {% endrecursetree %}
+    </ul>
+{% endblock %}

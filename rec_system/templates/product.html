@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Поиск{% endblock %}
+
+{% block content %}
+	<h2>{{ product.title }}</h2>
+    <p>Категория: {{ product.category.title }}</p>
+    <p>Бренд: {{ product.brand.title }}</p>
+    <p>Цена: {{ product.price }}</p>
+    <p>В наличии: {{ product.is_available }}</p>
+    <p>Доступно для рассрочки: {{ product.is_installment }}</p>
+    <p>Гарантия: {{ product.warranty_type }}</p>
+
+    {% for item in recs %}
+        <a href="/product/{{ item.id }}/">{{ item.title }}</a>
+    {% endfor %}
+
+    <h2>{{ user.username }}</h2>
+
+{% endblock %}

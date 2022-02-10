@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Поиск{% endblock %}
+{% block title %}{{ product.title }}{% endblock %}
 
 {% block content %}
 	<h2>{{ product.title }}</h2>
@@ -11,9 +11,46 @@
     <p>Доступно для рассрочки: {{ product.is_installment }}</p>
     <p>Гарантия: {{ product.warranty_type }}</p>
 
-    {% for item in recs %}
-        <a href="/product/{{ item.id }}/">{{ item.title }}</a>
-    {% endfor %}
+    {% if not user.is_anonymous %}
+
+    <div class="row">
+        <div class="col-md-3">
+            {% if is_liked %}
+                <form action={% url 'product-like' product.id %} method="DELETE" class="button-form">
+                    {% csrf_token %}
+                    <input class="button" style="background-color: hotpink" type="submit" value="Like!)">
+                </form>
+            {% else %}
+                <form action={% url 'product-like' product.id %} method="POST" class="button-form">
+                    {% csrf_token %}
+                    <input class="button" type="submit" value="Like!)">
+                </form>
+            {% endif %}
+        </div>
+        <div class="col-md-3">
+            {% if is_disliked %}
+                <form action={% url 'product-dislike' product.id %} method="DELETE" class="button-form">
+                    {% csrf_token %}
+                    <input class="button" style="background-color: darkred" type="submit" value="Dislike!(">
+                </form>
+            {% else %}
+                <form action={% url 'product-dislike' product.id %} method="POST" class="button-form">
+                {% csrf_token %}
+                    <input class="button" type="submit" value="Dislike!(">
+                </form>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    <div>
+        Рекомендации:
+        <ul>
+            {% for item in recs %}
+                <li><a href="/product/{{ item.id }}/">{{ item.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
 
     <h2>{{ user.username }}</h2>
 

@@ -191,3 +191,49 @@ def get_students_table_value(n:int) -> float:
         if item[0] >= n:
             return item[1]
     return table[-1][1]
+
+
+def pprint_minkowski_dist(x:Product, y:Product, p: float) -> float:
+    max_price = max(x.price, y.price)
+    x_vector = [
+        float(x.price / max_price),
+        float(x.is_installment),
+        float(WarrantyType.get_num(x.warranty_type) / len(WarrantyType))
+    ]
+    y_vector = [
+        float(y.price / max_price),
+        float(y.is_installment),
+        float(WarrantyType.get_num(y.warranty_type) / len(WarrantyType))
+    ]
+    print('minkowski_distance')
+    return minkowski_dist(x_vector, y_vector, p)
+
+def pprint_chebyshev_dist(x:Product, y:Product) -> float:
+    max_price = max(x.price, y.price)
+    x_vector = [
+        float(x.price / max_price),
+        float(x.is_installment),
+        float(WarrantyType.get_num(x.warranty_type) / len(WarrantyType))
+    ]
+    y_vector = [
+        float(y.price / max_price),
+        float(y.is_installment),
+        float(WarrantyType.get_num(y.warranty_type) / len(WarrantyType))
+    ]
+    print('chebyshev_dist')
+    return chebyshev_dist(x_vector, y_vector)
+
+def pprint_cosine_similarity(x:Product, y:Product) -> float:
+    max_price = max(x.price, y.price)
+    x_vector = [
+        float(x.price / max_price),
+        float(x.is_installment),
+        float(WarrantyType.get_num(x.warranty_type) / len(WarrantyType))
+    ]
+    y_vector = [
+        float(y.price / max_price),
+        float(y.is_installment),
+        float(WarrantyType.get_num(y.warranty_type) / len(WarrantyType))
+    ]
+    print('cosine_similarity')
+    return cosine_similarity(x_vector, y_vector)

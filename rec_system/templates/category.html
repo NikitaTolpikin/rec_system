@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
-{% block title %}Поиск{% endblock %}
+{% block title %}{{ category.title }}{% endblock %}
 
 {% block content %}
 	<h2>{{ category.title }}</h2>
     {% for item in products %}
-        <a href="/product/{{ item.id }}/">{{ item.title }}</a>
+        <a href="/product/{{ item.id }}/">{{ item.title }}</a> <br/>
     {% endfor %}
 
 {% endblock %}

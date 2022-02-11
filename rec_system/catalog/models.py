@@ -35,6 +35,7 @@ class Product(models.Model):
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE, related_name='brand_products', verbose_name='Бренд')
     warranty_type = models.CharField(max_length=64, choices=WarrantyType.choices(), verbose_name='Гарантия')
     is_installment = models.BooleanField(verbose_name='Доступно в рассрочку')
+    image = models.ImageField(upload_to='images/', verbose_name="Изображение", null=True, blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='category_products',
                                  verbose_name='Категория')
 

@@ -5,7 +5,7 @@ from rec_system.catalog.recs import get_simple_recs, get_reaction_recs
 from rec_system.users.models import User
 
 
-def index_view(request):
+def search_view(request):
     return render(request, 'index.html')
 
 def categories_view(request):
@@ -25,12 +25,12 @@ def product_view(request, product_id):
         is_liked = False
         is_disliked = False
         if user.is_anonymous:
-            recs = get_simple_recs(product)
+            recs = get_simple_recs(product)[:6]
         else:
             user = User.objects.get(id=user.id)
             is_liked = product in user.liked_products.all()
             is_disliked = product in user.disliked_products.all()
-            recs = get_reaction_recs(product, user)
+            recs = get_reaction_recs(product, user)[:6]
         return render(request, 'product.html', {
             'product': product,
             'recs': recs,

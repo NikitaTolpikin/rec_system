@@ -51,3 +51,26 @@ def get_reaction_recs(product: Product, user: User, with_ratio=False, threshold=
         return recs_list
     return [rec[0] for rec in recs_list]
 
+
+def safe_pop(result_dict, key):
+    try:
+        return result_dict.pop(key)
+    except:
+        return None
+
+
+def get_soft_filter_products(filter_data: dict):
+    new_products = Product.objects.filter(**filter_data)
+    while not new_products.exists():
+        for key in filter_data:
+            if str(key).count('__lte'):
+                filter_data[key] = float(filter_data[key]) * 1.25
+            if str(key).count('__gte'):
+                filter_data[key] = float(filter_data[key]) * 0.75
+            new_products = Product.objects.filter(**filter_data)
+            if new_products.exists():
+                return new_products
+        keys_list = list(filter_data.keys())[::-1]
+        filter_data.pop(keys_list[0])
+        new_products = Product.objects.filter(**filter_data)
+    return new_products

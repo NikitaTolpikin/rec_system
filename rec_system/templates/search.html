@@ -9,6 +9,12 @@
                 {% csrf_token %}
                 {{ form }}
                 <input type="submit" value="Поиск">
+                {% if recs or not recs_exists %}
+                    <label for="products_search">Поиск по: товарам </label>
+                    <input type="radio" name="search_type" id="products_search" onclick="searchCheck()" checked>
+                    <label for="resc_search">рекомендациям </label>
+                    <input type="radio" name="search_type" id="recs_search" onclick="searchCheck()">
+                {% endif %}
             </form>
         </div>
     </div>
@@ -37,6 +43,65 @@
                     </div>
                 {% endfor %}
             </div>
+            {% if recs %}
+                <div class="row mt-3">
+                    <p>Также рекомендуем обратить внимание на данные продукты: </p>
+                </div>
+                <div class="row mt-3">
+                    {% for item in recs %}
+                        <div class="col-md-2">
+                            <div class="row">
+                                <div style="margin-left: auto; margin-right: auto;">
+                                    <img src="/media/{{ item.image }}" alt="connect" style="max-height:100px; text-align:center;"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <a href="/product/{{ item.id }}/">{{ item.title }}</a>
+                            </div>
+                            <div class="row">
+                                <p>Цена: {{ item.price }} р.</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% elif not recs_exists %}
+                <div class="row mt-3">
+                    <p>Не найдено подходящих рекомендаций, смените настроийки поиска по рекомендациям! </p>
+                </div>
+            {% endif %}
         </div>
     </div>
+    <script type="text/javascript">
+        function searchCheck() {
+            if (document.getElementById('products_search').checked) {
+                [].forEach.call(document.getElementsByClassName('recs_search'), function (element) {
+                    element.style.display = 'none';
+                });
+                [].forEach.call(document.getElementsByClassName('products_search'), function (element) {
+                    element.style.display = 'inline-block';
+                });
+                document.getElementById('id_last_search_type').value = 'products_search';
+            } else if (document.getElementById('recs_search').checked) {
+                [].forEach.call(document.getElementsByClassName('recs_search'), function (element) {
+                    element.style.display = 'inline-block';
+                });
+                [].forEach.call(document.getElementsByClassName('products_search'), function (element) {
+                    element.style.display = 'none';
+                });
+                document.getElementById('id_last_search_type').value = 'recs_search';
+            } else {
+                alert('error');
+            }
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            let last_search = document.getElementById('id_last_search_type').value;
+            if (last_search === 'products_search') {
+                document.getElementById('products_search').checked = true;
+                document.getElementById('products_search').click();
+            } else {
+                document.getElementById('recs_search').checked = true;
+                document.getElementById('recs_search').click();
+            }
+        }, false);
+    </script>
 {% endblock %}
